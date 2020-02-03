@@ -37,16 +37,16 @@
           <td>${product.getQuantity()}</td>
           <td>${product.getDescription()}</td>
           <td><a href="${pageContext.request.contextPath}/product?action=delete&id=${product.getId()}" onclick="return confirm('Are You Sure?')">
-            <button type="button">Delete</button>
+            <button class="btn btn-danger" type="button">Delete</button>
           </a>| <a href="${pageContext.request.contextPath}/product?action=getSelected&id=${product.getId()}">
-            <button type="button">Edit</button>
+            <button class="btn btn-info" type="button">Edit</button>
           </a></td>
         </tr>
       </c:forEach>
       </tbody>
 
     </table>
-  <p><a href="addProductForm.jsp"><button type="button">Add new product</button></a></p>
+  <p><a href="addProductForm.jsp"><button type="button" class="btn btn-info">Add new product</button></a></p>
 </div>
 
 </body>

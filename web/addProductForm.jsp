@@ -13,7 +13,6 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="container">
-<div class="row">
     <form method="post" action="${pageContext.request.contextPath}/product">
         <h2>Add new product</h2>
 
@@ -33,10 +32,9 @@
         <button class="btn btn-primary" type="submit" name="action" value="Add"
                 onclick="return confirm('Are You Sure?')">Add
         </button>
-        <button type="button" class="btn btn-info" location.href="product?action=view">Back</button>
+        <button type="button" class="btn btn-info" onclick="window.open('/product?action=view')">Back</button>
     </form>
 
-</div>
 
 </body>
 </html>

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/product")
@@ -26,7 +27,7 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String action = request.getParameter("action");
         Connection conn = getConnection();
-        String name = "", description = "";
+        String name = "", description = ""; String color;
         double price;
         int quantity;
         switch (action) {
@@ -36,13 +37,15 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                 price = Double.parseDouble(request.getParameter("price"));
                 quantity = Integer.parseInt(request.getParameter("quantity"));
                 description = request.getParameter("description");
+                color = request.getParameter("color");
                 try {
-                    PreparedStatement ps = conn.prepareStatement("update product set name=?,price=?,quantity=?,description=? where id=?");
+                    PreparedStatement ps = conn.prepareStatement("update product set name=?,price=?,quantity=?,description=?, color=? where id=?");
                     ps.setString(1, name);
                     ps.setDouble(2, price);
                     ps.setInt(3, quantity);
                     ps.setString(4, description);
-                    ps.setInt(5, id);
+                    ps.setString(5, color);
+                    ps.setInt(6, id);
                     ps.executeUpdate();
                     ps.close();
                     conn.close();
@@ -57,12 +60,14 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                 price = Double.parseDouble(request.getParameter("price"));
                 quantity = Integer.parseInt(request.getParameter("quantity"));
                 description = request.getParameter("description");
+                color = request.getParameter("color");
                 try {
-                    PreparedStatement ps = conn.prepareStatement("insert into product(name,price,quantity,description) values (?,?,?,?)");
+                    PreparedStatement ps = conn.prepareStatement("insert into product(name,price,quantity,color,description) values (?,?,?,?,?)");
                     ps.setString(1, name);
                     ps.setDouble(2, price);
                     ps.setInt(3, quantity);
-                    ps.setString(4, description);
+                    ps.setString(4, color);
+                    ps.setString(5, description);
                     ps.executeUpdate();
                     ps.close();
                     conn.close();
@@ -90,7 +95,8 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                         newProduct.setName(rs.getString(2));
                         newProduct.setPrice(rs.getDouble(3));
                         newProduct.setQuantity(rs.getInt(4));
-                        newProduct.setDescription(rs.getString(5));
+                        newProduct.setColor(rs.getString(5));
+                        newProduct.setDescription(rs.getString(6));
                         productList.add(newProduct);
                     }
                     rs.close();
@@ -132,7 +138,8 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                         newProduct.setName(rs.getString(2));
                         newProduct.setPrice(rs.getDouble(3));
                         newProduct.setQuantity(rs.getInt(4));
-                        newProduct.setDescription(rs.getString(5));
+                        newProduct.setColor(rs.getString(5));
+                        newProduct.setDescription(rs.getString(6));
                         productListSearches.add(newProduct);
                     }
                     rs.close();
@@ -157,7 +164,8 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                         selectedProduct.setName(rs.getString(2));
                         selectedProduct.setPrice(rs.getDouble(3));
                         selectedProduct.setQuantity(rs.getInt(4));
-                        selectedProduct.setDescription(rs.getString(5));
+                        selectedProduct.setColor(rs.getString(5));
+                        selectedProduct.setDescription(rs.getString(6));
                     }
                     request.setAttribute("selectedProduct", selectedProduct);
                     request.getRequestDispatcher("EditProductForm.jsp").forward(request, response);

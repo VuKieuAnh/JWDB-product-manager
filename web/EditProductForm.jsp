@@ -8,7 +8,7 @@
 </head>
 <body class="container">
 <%Product selectedProduct = (Product) request.getAttribute("selectedProduct");%>
-<form method="post" action="${pageContext.request.contextPath}/product">
+<form style="padding-top: 15px" method="post" action="${pageContext.request.contextPath}/product">
     <legend><h2>Edit Product</h2></legend>
 
     <input type="number" name="id" readonly="true" hidden value="<%=selectedProduct.getId()%>"></p>
@@ -16,21 +16,29 @@
         <label>Name</label> <input class="form-control" type="text" name="name" value="<%=selectedProduct.getName()%>">
     </div>
     <div class="form-group">
+        <label>Price</label> <input class="form-control" type="number" name="price"
+                                    value="<%=selectedProduct.getPrice()%>">
+    </div>
+
+    <div class="form-group">
         <label>Quantity</label> <input class="form-control" type="number" name="quantity"
                                        value="<%=selectedProduct.getQuantity()%>">
     </div>
     <div class="form-group">
-        <label>Description</label> <input class="form-control" name="description"
-                                          value="<%=selectedProduct.getDescription()%>">
+        <label>Color</label> <input class="form-control" type="text" name="color"
+                                    value="<%=selectedProduct.getColor()%>">
     </div>
     <div class="form-group">
-        <label>Price</label> <input class="form-control" type="number" name="price"
-                                    value="<%=selectedProduct.getPrice()%>">
+        <label>Description</label> <textarea class="form-control" name="description"
+                                             ><%=selectedProduct.getDescription()%></textarea>
     </div>
-    <button class="btn btn-info" type="submit" name="action" value="Edit" onclick="return confirm('Are You Sure?')">Edit</button>
+
+    <button class="btn btn-success" type="submit" name="action" value="Edit" onclick="return confirm('Are You Sure?')">
+         Update
+    </button>
     |<a href="product?action=view">
-        <button class="btn btn-info" type="button">Back</button>
-    </a>
+    <button class="btn btn-secondary" type="button">Back</button>
+</a>
 </form>
 </body>
 </html>

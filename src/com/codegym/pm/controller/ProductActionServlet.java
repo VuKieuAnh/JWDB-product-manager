@@ -1,7 +1,7 @@
 package com.codegym.pm.controller;
 
 import com.codegym.pm.config.DBConnection;
-import com.codegym.pm.model.product;
+import com.codegym.pm.model.Product;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -79,13 +79,13 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
         Connection conn = getConnection();
         switch (action) {
             case "view":
-                ArrayList<product> productList = new ArrayList<>();
+                ArrayList<Product> productList = new ArrayList<>();
                 try {
                     Statement st = conn.createStatement();
                     String query = "select * from product";
                     ResultSet rs = st.executeQuery(query);
                     while (rs.next()) {
-                        product newProduct = new product();
+                        Product newProduct = new Product();
                         newProduct.setId(rs.getInt(1));
                         newProduct.setName(rs.getString(2));
                         newProduct.setPrice(rs.getDouble(3));
@@ -117,13 +117,41 @@ public class ProductActionServlet extends javax.servlet.http.HttpServlet {
                 response.sendRedirect("product?action=view");
                 break;
 
+
+            case "search":
+                String nameSearch = request.getParameter("nameSearch");
+                ArrayList<Product> productListSearches = new ArrayList<>();
+                try {
+                    Statement st = conn.createStatement();
+                    PreparedStatement ps = conn.prepareStatement("select * from product where instr(name, ?)> 0");
+                    ps.setString(1, nameSearch);
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        Product newProduct = new Product();
+                        newProduct.setId(rs.getInt(1));
+                        newProduct.setName(rs.getString(2));
+                        newProduct.setPrice(rs.getDouble(3));
+                        newProduct.setQuantity(rs.getInt(4));
+                        newProduct.setDescription(rs.getString(5));
+                        productListSearches.add(newProduct);
+                    }
+                    rs.close();
+                    st.close();
+                    conn.close();
+                    request.setAttribute("productList", productListSearches);
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
             case "getSelected":
                 int selectedId = Integer.parseInt(request.getParameter("id"));
                 try {
                     PreparedStatement ps = conn.prepareStatement("select * from product where id=?");
                     ps.setInt(1, selectedId);
                     ResultSet rs = ps.executeQuery();
-                    product selectedProduct = new product();
+                    Product selectedProduct = new Product();
                     while (rs.next()) {
                         selectedProduct.setId(rs.getInt(1));
                         selectedProduct.setName(rs.getString(2));

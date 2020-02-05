@@ -1,4 +1,4 @@
-<%@ page import="com.codegym.pm.model.product" %>
+<%@ page import="com.codegym.pm.model.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,9 +7,9 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="container">
-<%product selectedProduct = (product) request.getAttribute("selectedProduct");%>
+<%Product selectedProduct = (Product) request.getAttribute("selectedProduct");%>
 <form method="post" action="${pageContext.request.contextPath}/product">
-    <legend><h2>Add new product</h2></legend>
+    <legend><h2>Edit Product</h2></legend>
 
     <input type="number" name="id" readonly="true" hidden value="<%=selectedProduct.getId()%>"></p>
     <div class="form-group">
@@ -27,11 +27,10 @@
         <label>Price</label> <input class="form-control" type="number" name="price"
                                     value="<%=selectedProduct.getPrice()%>">
     </div>
-    <button class="btn btn-info" type="submit" name="action" onclick="return confirm('Are You Sure?')">Edit</button>
+    <button class="btn btn-info" type="submit" name="action" value="Edit" onclick="return confirm('Are You Sure?')">Edit</button>
     |<a href="product?action=view">
         <button class="btn btn-info" type="button">Back</button>
     </a>
 </form>
-
 </body>
 </html>

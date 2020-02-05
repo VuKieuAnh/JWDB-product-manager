@@ -1,19 +1,20 @@
 package com.codegym.pm.model;
 
-public class product {
+public class Product {
     private int id, quantity;
     private double price;
-    private String name, description;
+    private String name, description, color;
 
-    public product() {
+    public Product() {
     }
 
-    public product(int id, int quantity, double price, String name, String description) {
+    public Product(int id, int quantity, double price, String name, String description, String color) {
         this.id = id;
         this.quantity = quantity;
         this.price = price;
         this.name = name;
         this.description = description;
+        this.color = color;
     }
 
     public int getId() {
@@ -54,5 +55,13 @@ public class product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
